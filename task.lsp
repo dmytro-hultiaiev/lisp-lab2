@@ -1,21 +1,21 @@
-(defun remove-seconds (lst n)
+(defun remove-seconds (lst)
     (cond
         ((null lst) nil)
-        ((oddp n) (remove-seconds(cdr lst) (+ n 1)))
-        (t (cons (car lst) (remove-seconds(cdr lst) (+ n 1))))))
+        ((null (cdr lst)) (list (car lst)))
+        (t (cons (car lst) (remove-seconds (cddr lst))))))
  
 (defun check-first-function (name input expected)
     "Execute `my-reverse' on `input', compare result with `expected' and print
     comparison status"
     (format t "~:[FAILED~;passed~] ~a~%"
-        (equal (remove-seconds (car input) (cadr input)) expected)
+        (equal (remove-seconds input) expected)
         name))
 
 (defun test-first-function ()
-    (check-first-function "test 1" '((1 2 3 4 5 6 7 8 9 10) 0) '(1 3 5 7 9))  
-    (check-first-function "test 2" '((1 1 1 1 1 1) 0) '(1 1 1)) 
-    (check-first-function "test 3" '((1 '(2 3) 4 5 '(6 7 8)) 0) '(1 4 '(6 7 8)))
-    (check-first-function "test 4" '(nil 0) nil)) 
+    (check-first-function "test 1" '(1 2 3 4 5 6 7 8 9 10) '(1 3 5 7 9))  
+    (check-first-function "test 2" '(1 1 1 1 1 1) '(1 1 1)) 
+    (check-first-function "test 3" '(1 '(2 3) 4 5 '(6 7 8)) '(1 4 '(6 7 8)))
+    (check-first-function "test 4" nil nil))
 
 
 (defun contains (symbol list)
@@ -32,10 +32,10 @@
 
 (defun list-set-symmetric-difference (list1 list2)
   (cond
-    ((and (null list1) (null list2)) nil)
+    ((and (null list1) (null list2)) nil) 
     ((null list1) list2)
     ((null list2) list1)
-    ((contains (first list1) list2) (list-set-symmetric-difference (remove-first (first list1) list1) (remove-first (first list1) list2)))
+    ((contains (first list1) list2) (list-set-symmetric-difference (rest list1) (remove-first (first list1) list2)))
     (t (cons (first list1) (list-set-symmetric-difference (rest list1) list2)))))
 
 (defun check-second-function (name input1 input2 expected)
