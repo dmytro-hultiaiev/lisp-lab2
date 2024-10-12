@@ -92,7 +92,7 @@ passed test 4
 (defun contains (symbol list)
   (cond
     ((null list) nil)
-    ((equal symbol (car list)) t)  
+    ((eql symbol (car list)) t)  
     (t (contains symbol (cdr list)))))  
 ```
 ### Лістинг функції remove-first
@@ -100,7 +100,7 @@ passed test 4
 (defun remove-first (item lst)
   (cond
     ((null lst) nil)
-    ((equal item (car lst)) (cdr lst))
+    ((eql item (car lst)) (cdr lst))
     (t (cons (car lst) (remove-first item (cdr lst))))))
 ```
 ### Тестові набори
